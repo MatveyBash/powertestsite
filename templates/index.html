@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerTest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .circle-container {
+            margin: 30px auto;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .circle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-group {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input {
+            padding: 15px 20px;
+            width: 100%;
+            max-width: 400px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        .user-name {
+            font-size: 3rem;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .other-users {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .user-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .circle-container {
+                width: 250px;
+                height: 250px;
+            }
+
+            .circle {
+                font-size: 4rem;
+            }
+
+            .user-name {
+                font-size: 2.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Главная страница -->
+    <div id="main-page" class="container">
+        <h1>Введите ваше имя</h1>
+
+        <div class="circle-container">
+            <div id="name-circle" class="circle">?</div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="name-input" placeholder="Введите ваше имя" maxlength="20">
+            <input type="text" id="code-input" placeholder="Введите код (например: 0001)" maxlength="4">
+        </div>
+
+        <div class="error-message" id="error-message"></div>
+
+        <div class="button-group">
+            <button id="submit-code">Подтвердить код</button>
+            <button id="create-test">Создать тест</button>
+        </div>
+    </div>
+
+    <script>
+        // Элементы DOM
+        const nameInput = document.getElementById('name-input');
+        const codeInput = document.getElementById('code-input');
+        const submitCodeBtn = document.getElementById('submit-code');
+        const createTestBtn = document.getElementById('create-test');
+        const nameCircle = document.getElementById('name-circle');
+        const errorMessage = document.getElementById('error-message');
+
+        // Обработчики событий
+        nameInput.addEventListener('input', updateNameCircle);
+        submitCodeBtn.addEventListener('click', submitCode);
+        createTestBtn.addEventListener('click', goToCreateTest);
+
+        // Обновление круга с первой буквой имени
+        function updateNameCircle() {
+            const name = nameInput.value.trim();
+            if (name.length > 0) {
+                nameCircle.textContent = name.charAt(0).toUpperCase();
+            } else {
+                nameCircle.textContent = '?';
+            }
+        }
+
+        // Проверка кода и переход на страницу 0001
+        function submitCode() {
+            const code = codeInput.value.trim();
+            const name = nameInput.value.trim();
+
+            if (name.length === 0) {
+                errorMessage.textContent = 'Пожалуйста, введите ваше имя';
+                return;
+            }
+
+            if (code === '0001') {
+                // Сохраняем имя в localStorage для использования на странице 0001
+                localStorage.setItem('userName', name);
+                // Переходим на страницу 0001
+                window.location.href = 'page-0001.html';
+            } else {
+                errorMessage.textContent = 'Такой страницы не существует. Попробуйте снова.';
+            }
+        }
+
+        // Переход на страницу create-test
+        function goToCreateTest() {
+            window.location.href = 'create-test.html';
+        }
+
+        // Инициализация
+        updateNameCircle();
+    </script>
+</body>
+</html>
